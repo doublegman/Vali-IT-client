@@ -1,0 +1,33 @@
+<div class="container align-self-center">
+  <div class="row">
+    <div class="mx-auto">
+      <div class="card card-signin my-5  shadow p-3 mb-5 bg-white rounded" style="max-width: 300px">
+        <div class="card-body">
+          <form class="form-signin" (ngSubmit)="onSubmit(Username, Password)">
+            <div class="form-label-group">
+              <label for="inputUsername">Username</label>
+              <input #Username type="text" id="inputUsername" class="form-control" placeholder="Username" required
+                     autofocus>
+            </div>
+
+            <div class="form-label-group">
+              <label for="inputPassword">Password</label>
+              <input #Password type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+            </div>
+            <div class="row align-items-start">
+              <div class="col mt-3 flex-column">
+                <button class="btn btn-primary" type="submit">Sign in</button>
+              </div>
+              <div class="col mt-3 flex-column">
+                <button class="btn btn-success" type="button" routerLink="/register">Register</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--<div *ngIf="user">
+    <p>{{user.firstName}}</p>
+</div>-->

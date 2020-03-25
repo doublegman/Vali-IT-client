@@ -1,0 +1,58 @@
+<div class="container align-self-center">
+  <div class="row">
+    <div class="mx-auto">
+      <div class="card card-signin my-5  shadow p-3 mb-5 bg-white rounded" style="max-width: 300px">
+        <div class="card-body">
+          <form #f="ngForm" class="form-signin" (ngSubmit)="onSubmit()">
+            <div class="form-label-group">
+              <label for="inputUsername">Username</label>
+              <input #Username [(ngModel)]="form.username" [ngModelOptions]="{standalone: true}" type="text" id="inputUsername" class="form-control" placeholder="Username" required
+                     autofocus>
+            </div>
+
+            <div class="form-label-group">
+              <label for="inputPassword">Password</label>
+              <input #Password [(ngModel)]="form.password" [ngModelOptions]="{standalone: true}" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+            </div>
+
+            <div class="form-label-group">
+              <label for="inputEmail">Email</label>
+              <input #Email [(ngModel)]="form.email" [ngModelOptions]="{standalone: true}" name="email" type="email" id="inputEmail" class="form-control" placeholder="Email" required>
+            </div>
+
+            <div class="form-label-group">
+              <label for="inputFirstName">First name</label>
+              <input #FirstName [(ngModel)]="form.firstName" [ngModelOptions]="{standalone: true}" name="firstName" type="text" id="inputFirstName" class="form-control" placeholder="First name" required>
+            </div>
+
+            <div class="form-label-group">
+              <label for="inputLastName">Last name</label>
+              <input #LastName [(ngModel)]="form.lastName" [ngModelOptions]="{standalone: true}" name="lastName" type="text" id="inputLastName" class="form-control" placeholder="Last name" required>
+            </div>
+
+            <div class="mt-2 row">
+              <label #Gender class="radio-inline">
+              <div class="flex-fill flex-grow-1">
+                  <input [(ngModel)]="form.gender" [ngModelOptions]="{standalone: true}" name="gender"  type="radio" id="gender1" value="true" checked>Male
+              </div>
+              <div class="flex-fill flex-grow-1">
+                <input [(ngModel)]="form.gender" [ngModelOptions]="{standalone: true}" name="gender"  type="radio" id="gender2" value="false">Female
+              </div>
+            </label>
+            </div>
+
+
+            <div class="row align-items-start">
+              <div class="col mt-3 flex-column">
+                <button class="btn btn-success" type="submit">Register</button>
+              </div>
+              <div class="col mt-3 flex-column">
+                <button class="btn btn-primary" type="button" routerLink="/login">Sign in</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
