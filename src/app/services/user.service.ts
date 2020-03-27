@@ -1,28 +1,27 @@
-import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {User} from '../models/user';
+import {map} from 'rxjs/operators';
+import {JwtService} from './jwt.service';
 
-const headerDict = {
-  'Content-Type': 'application/json',
-  'Authorization': 'Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBbmRyZXcxOTEiLCJyb2xlcyI6WyJST0xFX1VTRVIiLCJST0xFX0FETUlOIl0s' +
-    'ImlhdCI6MTU4NTA0NDIwNSwiZXhwIjoxNTg1NDA0MjA1fQ.sd-McyUUyCoVd2C07Br_fOuU996icoNICKdg2fXXNO8',
-}
-
-const requestOptions = {
-  headers: new HttpHeaders(headerDict)
-};
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class UserService {
-  private userUrl = 'http://localhost:8080/users/';
 
-  constructor(private http: HttpClient) { }
-
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.userUrl, requestOptions);
+  constructor(private jwt: JwtService, private http: HttpClient) {
   }
+
+  updateUserProfile(user): Observable<any> {
+    const api = `${this.jwt.endpoint}/users`;
+    return this.http.put(api, user,{ headers: this.jwt.headers }).pipe(
+      map((res: any) => {
+        this.jwt.updateProfileAndToken(res);
+        return res.user;
+      }));
+  }
+
 
 }

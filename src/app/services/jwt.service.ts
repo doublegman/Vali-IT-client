@@ -5,7 +5,6 @@ import {Observable, throwError} from 'rxjs';
 import {User} from '../models/user';
 import {Router} from '@angular/router';
 import {Login} from '../models/login';
-import {Token} from '../models/token';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +12,7 @@ import {Token} from '../models/token';
 export class JwtService {
   endpoint = 'http://localhost:8080';
   headers = new HttpHeaders().set('Content-Type', 'application/json');
-
-  currentUser: {} = {};
+  registrationMessage = '';
 
   constructor(
     private http: HttpClient,
@@ -24,33 +22,25 @@ export class JwtService {
 
 
   register(user: User) {
-    const api = `${this.endpoint}/auth/register`;
-    return this.http.post(api, user).subscribe((res: any ) => console.log(res))
-/*      .pipe(
-        catchError(this.handleError)
-      )*/;
+    return this.http.post(`${this.endpoint}/auth/register`, user);
   }
 
 
   login(login: Login) {
-    return this.http.post<Token>(`${this.endpoint}/auth/login`, login)
-      .subscribe((res: any) => {
-        if (localStorage.getItem('access_token') !== null) {
-          localStorage.removeItem('access_token');
-        }
-        localStorage.setItem('access_token', res.token);
-        localStorage.setItem('user_id', res.id);
-        // tslint:disable-next-line:no-shadowed-variable
-        this.getUserProfile().subscribe((res) => {
-          this.currentUser = res;
-          console.log(this.currentUser);
-          // this.router.navigate(['user-profile/' + res.msg._id]);
-        });
-      });
+    return this.http.post(`${this.endpoint}/auth/login`, login);
   }
 
   getToken() {
     return localStorage.getItem('access_token');
+  }
+
+  saveToken(res) {
+    if (localStorage.getItem('access_token') !== null) {
+      localStorage.removeItem('access_token');
+    }
+    localStorage.setItem('access_token', res.token);
+    localStorage.setItem('user_id', res.id);
+    localStorage.setItem('user_username', res.username);
   }
 
   getId() {
@@ -65,24 +55,34 @@ export class JwtService {
   doLogout() {
     const removeToken = localStorage.removeItem('access_token');
     const removeId = localStorage.removeItem('user_id');
-    console.log(this.getId());
+    const removeUsername = localStorage.removeItem('user_username');
+    const removeCurrentUser = localStorage.removeItem('current_user');
 /*    if (removeToken == null) {
       this.router.navigate(['log-in']);
     }*/
   }
 
-  // User profile
   getUserProfile(): Observable<User> {
     const api = `${this.endpoint}/users/${this.getId()}`;
     return this.http.get(api, { headers: this.headers }).pipe(
-      map((res: User) => {
-        return new User(res.username, res.password, res.email, res.firstName, res.lastName, res.gender, res.profilePicture);
+      map((res: any) => {
+        return res;
       }),
       catchError(this.handleError)
     );
   }
 
-  // Error
+  updateProfileAndToken(res) {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('user_id');
+    localStorage.removeItem('user_username');
+    localStorage.removeItem('current_user');
+    localStorage.setItem('access_token', res.token);
+    localStorage.setItem('user_id', res.user.id);
+    localStorage.setItem('user_username', res.user.username);
+    localStorage.setItem('current_user', res.user);
+  }
+
   handleError(error: HttpErrorResponse) {
     let msg = '';
     if (error.error instanceof ErrorEvent) {
@@ -94,4 +94,5 @@ export class JwtService {
     }
     return throwError(msg);
   }
+
 }

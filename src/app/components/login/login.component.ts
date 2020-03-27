@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {JwtService} from '../../services/jwt.service';
-import {Login} from '../../models/login';
-import {User} from '../../models/user';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,19 +9,40 @@ import {User} from '../../models/user';
 })
 export class LoginComponent implements OnInit {
 
-  user: User;
+  form: any = {};
+  isLoggedIn = false;
+  errorMessage = '';
+  registrationMessage = '';
 
-  constructor(private jwt: JwtService) { }
+  constructor(private jwt: JwtService, private router: Router) { }
 
   ngOnInit(): void {
+      this.isLoggedIn = this.jwt.isLoggedIn;
+      this.registrationMessage = this.jwt.registrationMessage;
   }
 
-  onSubmit(username, password) {
-    console.log('Enters to onSubmit method with ' + username.value + ' ' + password.value);
-    this.jwt.login(new Login(username.value, password.value));
-    this.jwt.getUserProfile().subscribe((user: User) => {
-      this.user = user;
+  onSubmit() {
+    localStorage.removeItem('access_token');
+    this.jwt.login(this.form).subscribe((res: any) => {
+      this.jwt.saveToken(res);
+      this.isLoggedIn = true;
+      this.jwt.getUserProfile().subscribe(user => localStorage.setItem('current_user', JSON.stringify(user)));
+      this.errorMessage = '';
+      this.jwt.registrationMessage = '';
+      this.router.navigate(['/']).then(() => {
+        window.location.reload();
+      });
+    },
+      error => {
+      this.errorMessage = error.error.message;
+      if (error) {
+        this.isLoggedIn = false;
+      }
     });
-    console.log(localStorage.getItem('access_token'));
   }
+
+  getCurrentUsername(): string {
+    return localStorage.getItem('user_username');
+  }
+
 }

@@ -11,11 +11,13 @@ import {RouterModule, Routes} from '@angular/router';
 import {JwtModule} from '@auth0/angular-jwt';
 import {FormsModule} from '@angular/forms';
 import { TopMenuComponent } from './components/top-menu/top-menu.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
 
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterFormComponent }
+  { path: 'register', component: RegisterFormComponent },
+  { path: 'user', component: UserComponent }
 ];
 
 @NgModule({
@@ -24,7 +26,8 @@ const appRoutes: Routes = [
     UserComponent,
     RegisterFormComponent,
     LoginComponent,
-    TopMenuComponent
+    TopMenuComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,

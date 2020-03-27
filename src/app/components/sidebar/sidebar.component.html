@@ -1,0 +1,23 @@
+<nav *ngIf="localStorageItem('user_username')" class="table-bordered" id="sidebar">
+  <ul class="list-unstyled components">
+    <li>
+      <a href="#">Manage categories</a>
+    </li>
+    <li *ngFor="let category of categories" class="active">
+
+      <a href="#homeSubmenu{{category.name}}" data-toggle="collapse" aria-expanded="false"
+         class="dropdown-toggle">{{category.name}}</a>
+      <ul class="collapse list-unstyled" id="homeSubmenu{{category.name}}">
+
+        <li>
+          <a href="#">Manage themes</a>
+        </li>
+        <li *ngFor="let theme of getThemesByCategoryId(category.id)">
+          <a href="#">{{theme.name}}</a>
+        </li>
+
+      </ul>
+
+    </li>
+  </ul>
+</nav>

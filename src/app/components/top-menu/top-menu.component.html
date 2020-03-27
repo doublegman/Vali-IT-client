@@ -1,22 +1,26 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-    <a class="navbar-brand" href="#">Hidden brand</a>
+    <a class="navbar-brand" href="/">#finalProject</a>
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
+      <li *ngIf="!localStorageItem('user_username')" class="nav-item">
         <a class="nav-link" routerLink="/register">Register</a>
       </li>
-      <li class="nav-item">
+      <li *ngIf="!localStorageItem('user_username')" class="nav-item">
         <a class="nav-link" routerLink="/login">Login</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" role="button" (click)="logout()">Logout</a>
-      </li>
     </ul>
-    <div *ngIf="hm">
-      ahaha
+  </div>
+  <div *ngIf="localStorageItem('user_username')" class="navbar-nav">
+    <div class="navbar-text">Logged in as:</div>
+    <div class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+         aria-haspopup="true" aria-expanded="false">
+        {{ localStorageItem('user_username')}}
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+        <a class="dropdown-item" routerLink="/user">Profile</a>
+        <a class="dropdown-item" style="cursor:pointer" role="button" (click)="logout()">Log Out</a>
+      </div>
     </div>
   </div>
 </nav>

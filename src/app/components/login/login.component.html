@@ -1,18 +1,45 @@
-<div class="container align-self-center">
-  <div class="row">
+<div class="container">
+  <div class="d-flex flex-column">
+    <div *ngIf="registrationMessage" class="container">
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{registrationMessage}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+    <div *ngIf="f.submitted && isLoggedIn" class="container">
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        Successfully logged in as {{getCurrentUsername()}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+    <div *ngIf="errorMessage" class="container">
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{errorMessage}}
+        <button type="button" class="close" data-dismiss="alert" (click)="errorMessage=''" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex flex-column">
     <div class="mx-auto">
-      <div class="card card-signin my-5  shadow p-3 mb-5 bg-white rounded" style="max-width: 300px">
+      <div class="card card-signin my-2  shadow p-3 mb-1 bg-white rounded" style="max-width: 300px">
         <div class="card-body">
-          <form class="form-signin" (ngSubmit)="onSubmit(Username, Password)">
+          <form #f="ngForm" class="form-signin" (ngSubmit)="onSubmit()">
             <div class="form-label-group">
-              <label for="inputUsername">Username</label>
-              <input #Username type="text" id="inputUsername" class="form-control" placeholder="Username" required
-                     autofocus>
+              <label for="inputUsername">Username or Email</label>
+              <input [(ngModel)]="form.username" name="username" type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
             </div>
-
             <div class="form-label-group">
               <label for="inputPassword">Password</label>
-              <input #Password type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+              <input [(ngModel)]="form.password" name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+            </div>
+            <div class="form-label-group m-2">
+              <label class="form-check-label"><input type="checkbox"> Remember me</label>
             </div>
             <div class="row align-items-start">
               <div class="col mt-3 flex-column">
@@ -28,6 +55,3 @@
     </div>
   </div>
 </div>
-<!--<div *ngIf="user">
-    <p>{{user.firstName}}</p>
-</div>-->

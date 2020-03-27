@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {JwtService} from '../../services/jwt.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-top-menu',
@@ -9,16 +10,24 @@ import {JwtService} from '../../services/jwt.service';
 export class TopMenuComponent implements OnInit {
 
   hm: boolean;
+  isLoggedIn = false;
 
-  constructor(private jwt: JwtService) { }
+  constructor(private jwt: JwtService, private router: Router) { }
 
   ngOnInit(): void {
     this.hm = localStorage.getItem('user_id') !== null;
-    console.log(this.hm);
+    this.isLoggedIn = this.jwt.isLoggedIn;
   }
 
-  logout(): void {
+  async logout(): Promise<void> {
     this.jwt.doLogout();
+    this.router.navigate(['/login']).then(() => {
+      window.location.reload();
+    });
+  }
+
+  public localStorageItem(key: string): string {
+    return localStorage.getItem(key);
   }
 
 }

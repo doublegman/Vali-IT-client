@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {JwtService} from '../../services/jwt.service';
-import {User} from '../../models/user';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-register-form',
@@ -10,22 +10,26 @@ import {User} from '../../models/user';
 export class RegisterFormComponent implements OnInit {
 
   form: any = {};
+  errorMessage = '';
 
-  constructor(private jwt: JwtService) { }
+  constructor(private jwt: JwtService, private router: Router) { }
 
   ngOnInit(): void {
+    this.form.gender = true;
   }
 
-  onSubmit() {
-    const user = new User(
-      this.form.username,
-      this.form.password,
-      this.form.email,
-      this.form.firstName,
-      this.form.lastName,
-      this.form.gender,
-      null);
-
-    this.jwt.register(user);
+  onaSubmit() {
+    this.jwt.register(this.form).subscribe(
+      (res: any) => {
+        this.jwt.registrationMessage = 'Successfully registered. Please log in.';
+          this.router.navigate(['/login']).then();
+      }, error => {
+        if (error) {
+          this.errorMessage = error.error.message;
+          console.log(this.errorMessage);
+        }
+      }
+    );
   }
+
 }
