@@ -1,6 +1,5 @@
 .wrapper {
   display: flex;
-  border: 1px black;
   align-items: stretch;
 }
 

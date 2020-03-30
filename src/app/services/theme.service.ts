@@ -17,4 +17,24 @@ export class ThemeService {
       }));
   }
 
+  getThemeById(id) {
+    return this.http.get(`${this.jwt.endpoint}/users/${this.jwt.getId()}/themes/${id}`, { headers: this.jwt.headers }).pipe(
+      map((res: any) => {
+        return res;
+      }));
+  }
+
+  getThemesByCategoryId(id): any[] {
+    let tempThemes = [];
+    this.getThemes().subscribe( res => {
+      for(let i=0; i < res.length; i++){
+        if (Number(id) === res[i].category) {
+          tempThemes.push(res[i]);
+        }
+      }
+    });
+    return tempThemes;
+  }
+
+
 }

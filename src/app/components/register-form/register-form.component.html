@@ -1,73 +1,80 @@
-<div class="container ">
-  <div class="row">
-    <div *ngIf="errorMessage" class="container">
-      <div class="alert alert-danger alert-trim justify-content-center d-flex my-2">
-        {{ errorMessage }}
+<div class="container">
+  <div>
+    <div class="d-flex flex-column m-3">
+      <div *ngIf="errorMessage" class="container col-md-auto">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          {{errorMessage}}
+          <button type="button" class="close" data-dismiss="alert" (click)="errorMessage=''" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
       </div>
     </div>
-    <div class="mx-auto">
-      <div class="card card-signin my-1  shadow p-3 mb-5 bg-white rounded" style="max-width: 300px">
-        <div class="card-body">
-          <form class="form-signin" (ngSubmit)="onaSubmit()">
+    <div class="d-flex flex-column">
+      <div class="mx-auto">
+        <div class="card card-signin my-1  shadow p-3 mb-5 bg-white rounded" style="max-width: 300px">
+          <div class="card-body">
+            <form class="form-signin" (ngSubmit)="onaSubmit()">
 
-            <div class="form-label-group">
-              <label for="inputUsername">Username</label>
-              <input [(ngModel)]="form.username" [ngModelOptions]="{standalone: true}" type="text" id="inputUsername"
-                     class="form-control" placeholder="Username" required
-                     autofocus>
-            </div>
-
-            <div class="form-label-group">
-              <label for="inputPassword">Password</label>
-              <input [(ngModel)]="form.password" [ngModelOptions]="{standalone: true}" type="password"
-                     id="inputPassword" class="form-control" placeholder="Password" required>
-            </div>
-
-            <div class="form-label-group">
-              <label for="inputEmail">Email</label>
-              <input [(ngModel)]="form.email" [ngModelOptions]="{standalone: true}" name="email" type="email"
-                     id="inputEmail" class="form-control" placeholder="Email" required>
-            </div>
-
-            <div class="form-label-group">
-              <label for="inputFirstName">First name</label>
-              <input [(ngModel)]="form.firstName" [ngModelOptions]="{standalone: true}" name="firstName" type="text"
-                     id="inputFirstName" class="form-control" placeholder="First name" required>
-            </div>
-
-            <div class="form-label-group">
-              <label for="inputLastName">Last name</label>
-              <input [(ngModel)]="form.lastName" [ngModelOptions]="{standalone: true}" name="lastName" type="text"
-                     id="inputLastName" class="form-control" placeholder="Last name" required>
-            </div>
-
-            <div class="flex-grow-1">
-              <label>Gender</label>
-            </div>
-            <div class="form-check d-flex justify-content-between">
-
-              <div class="justify-content-start flex-fill ">
-                <input class="form-check-input" [(ngModel)]="form.gender" name="gender1" type="radio" [value]="true"
-                       checked>
-                <label class="radio-inline">Male</label>
+              <div class="form-label-group">
+                <label for="inputUsername">Username</label>
+                <input [(ngModel)]="form.username" [ngModelOptions]="{standalone: true}" type="text" id="inputUsername"
+                       class="form-control" placeholder="Username" required
+                       autofocus>
               </div>
 
-              <div class="justify-content-end flex-fill">
-                <input class="form-check-input" [(ngModel)]="form.gender" name="gender2" type="radio" [value]="false">
-                <label class="radio-inline">Female</label>
+              <div class="form-label-group">
+                <label for="inputPassword">Password</label>
+                <input [(ngModel)]="form.password" [ngModelOptions]="{standalone: true}" type="password"
+                       id="inputPassword" class="form-control" placeholder="Password" required>
               </div>
-            </div>
 
-            <div class="row align-items-start">
-              <div class="col mt-3 flex-column">
-                <button class="btn btn-success" type="submit">Register</button>
+              <div class="form-label-group">
+                <label for="inputEmail">Email</label>
+                <input [(ngModel)]="form.email" [ngModelOptions]="{standalone: true}" name="email" type="email"
+                       id="inputEmail" class="form-control" placeholder="Email" required>
               </div>
-              <div class="col mt-3 flex-column">
-                <button class="btn btn-primary" type="button" routerLink="/login">Sign in</button>
-              </div>
-            </div>
 
-          </form>
+              <div class="form-label-group">
+                <label for="inputFirstName">First name</label>
+                <input [(ngModel)]="form.firstName" [ngModelOptions]="{standalone: true}" name="firstName" type="text"
+                       id="inputFirstName" class="form-control" placeholder="First name" required>
+              </div>
+
+              <div class="form-label-group">
+                <label for="inputLastName">Last name</label>
+                <input [(ngModel)]="form.lastName" [ngModelOptions]="{standalone: true}" name="lastName" type="text"
+                       id="inputLastName" class="form-control" placeholder="Last name" required>
+              </div>
+
+              <div class="flex-grow-1">
+                <label>Gender</label>
+              </div>
+              <div class="form-check d-flex justify-content-between">
+
+                <div class="justify-content-start flex-fill ">
+                  <input class="form-check-input" [(ngModel)]="form.gender" name="gender1" type="radio" [value]="true"
+                         checked>
+                  <label class="radio-inline">Male</label>
+                </div>
+
+                <div class="justify-content-end flex-fill">
+                  <input class="form-check-input" [(ngModel)]="form.gender" name="gender2" type="radio" [value]="false">
+                  <label class="radio-inline">Female</label>
+                </div>
+              </div>
+
+              <div class="row align-items-start">
+                <div class="col mt-3 flex-column">
+                  <button class="btn btn-success" type="submit">Register</button>
+                </div>
+                <div class="col mt-3 flex-column">
+                  <button class="btn btn-primary" type="button" routerLink="/login">Sign in</button>
+                </div>
+              </div>
+
+            </form>
+          </div>
         </div>
       </div>
     </div>

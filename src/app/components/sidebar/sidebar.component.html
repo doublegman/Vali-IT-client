@@ -1,7 +1,7 @@
-<nav *ngIf="localStorageItem('user_username')" class="table-bordered" id="sidebar">
+<nav *ngIf="localStorageItem('user_username')" id="sidebar">
   <ul class="list-unstyled components">
     <li>
-      <a href="#">Manage categories</a>
+      <a routerLink="/categories">Manage categories</a>
     </li>
     <li *ngFor="let category of categories" class="active">
 
@@ -10,10 +10,10 @@
       <ul class="collapse list-unstyled" id="homeSubmenu{{category.name}}">
 
         <li>
-          <a href="#">Manage themes</a>
+          <a href="/categories/{{category.id}}/themes/">Manage themes</a>
         </li>
         <li *ngFor="let theme of getThemesByCategoryId(category.id)">
-          <a href="#">{{theme.name}}</a>
+          <a href="/categories/{{category.id}}/themes/{{theme.id}}/notes">{{theme.name}}</a>
         </li>
 
       </ul>

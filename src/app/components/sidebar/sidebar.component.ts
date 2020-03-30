@@ -17,13 +17,13 @@ export class SidebarComponent implements OnInit {
   ngOnInit(): void {
     if(this.localStorageItem('user_id')) {
       this.categoriesService.getCategories().subscribe(res => this.categories = res);
-      this.themeService.getThemes().subscribe(res => {this.themes = res});
+      this.themeService.getThemes().subscribe(res => this.themes = res);
     }
   }
 
   getThemesByCategoryId(id): any[] {
     let tempThemes = [];
-    for(let i=0; i<this.themes.length; i++){
+    for(let i=0; i < this.themes.length; i++) {
       if (Number(id) === this.themes[i].category) {
         tempThemes.push(this.themes[i]);
       }

@@ -20,10 +20,12 @@ export class TopMenuComponent implements OnInit {
   }
 
   async logout(): Promise<void> {
-    this.jwt.doLogout();
-    this.router.navigate(['/login']).then(() => {
-      window.location.reload();
-    });
+    if (confirm("Are you sure you want to log out?")) {
+      this.jwt.doLogout();
+      this.router.navigate(['/login']).then(() => {
+        window.location.reload();
+      });
+    }
   }
 
   public localStorageItem(key: string): string {
