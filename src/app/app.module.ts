@@ -25,6 +25,9 @@ import { NotesComponent } from './components/notes/notes.component';
 import { NoteComponent } from './components/note/note.component';
 import { NoteManagementComponent } from './components/note-management/note-management.component';
 import { NewNoteComponent } from './components/new-note/new-note.component';
+import { CKEditorModule} from '@ckeditor/ckeditor5-angular';
+import { CategoryComponent } from './components/category/category.component';
+import { ThemeComponent } from './components/theme/theme.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -62,12 +65,16 @@ const appRoutes: Routes = [
     NotesComponent,
     NoteComponent,
     NoteManagementComponent,
-    NewNoteComponent
+    NewNoteComponent,
+    CategoryComponent,
+    ThemeComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
+    CKEditorModule,
+    FormsModule,
     RouterModule.forRoot(
       appRoutes,
       {enableTracing: false}

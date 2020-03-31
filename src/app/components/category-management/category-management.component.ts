@@ -14,7 +14,6 @@ export class CategoryManagementComponent implements OnInit {
   categoryId;
   category: any = {};
   categoryForm: any = {};
-  isUpdated = '';
   errorMessage = '';
   imageUrl = '';
   image: File;
@@ -32,13 +31,13 @@ export class CategoryManagementComponent implements OnInit {
   ngOnInit(): void {
     this.categoryId = this.route.snapshot.paramMap.get('id');
     this.categoryService.getCategoryById(this.categoryId).subscribe((res: any) => this.category = res);
+    this.categoryForm.id = this.categoryId;
   }
 
   async onSubmit() {
     if (!this.categoryForm.name) {
       this.categoryForm.name = this.category.name;
     }
-    this.categoryForm.id = this.categoryId;
     if (this.image) {
       const api = `${this.jwt.endpoint}/uploadImage`;
       let tempImage = new FormData();

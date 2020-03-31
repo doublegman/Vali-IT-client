@@ -42,7 +42,6 @@ export class NewCategoryComponent implements OnInit {
   fileChange(event: any) {
     if (event.target.files && event.target.files.length > 0) {
       this.image = event.target.files[0];
-      console.log(this.image);
     }
   }
 
