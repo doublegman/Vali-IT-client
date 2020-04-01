@@ -18,6 +18,7 @@ export class NotesComponent implements OnInit {
   categoryId;
   themeId;
   notes;
+  errorMessage = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -36,6 +37,22 @@ export class NotesComponent implements OnInit {
     this.themeService.getThemeById(this.themeId).subscribe(res=> this.themeName = res.name);
     this.notes = this.noteService.getNotesByThemeId(this.themeId);
     console.log(this.notes);
+  }
+
+  async deleteTheme() {
+    if (confirm("Are you sure you want to delete the theme?")) {
+      this.themeService.deleteTheme(Number(this.themeId)).subscribe(res => {
+        this.router.navigate(['/categories/' + this.categoryId + '/themes/all']).then(() => {
+          window.setTimeout(function() {
+            window.location.reload();
+          }, 0);
+        });
+      }, error => {
+        this.errorMessage = error.error.message;
+      });
+      await (2000);
+      alert("Theme deleted");
+    }
   }
 
 

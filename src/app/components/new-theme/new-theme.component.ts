@@ -14,7 +14,7 @@ export class NewThemeComponent implements OnInit {
 
   themeForm: any = {};
   categoryId = '';
-  themeId = '';
+  categoryName = '';
   errorMessage = '';
   isCreated: boolean = false;
   image: File;
@@ -28,6 +28,7 @@ export class NewThemeComponent implements OnInit {
 
   ngOnInit(): void {
     this.categoryId = this.route.snapshot.paramMap.get('category_id');
+    this.categoryService.getCategoryById(this.categoryId).subscribe(res => this.categoryName = res.name);
     this.themeForm.category = {};
     this.themeForm.category.id = Number(this.categoryId);
   }
@@ -58,7 +59,7 @@ export class NewThemeComponent implements OnInit {
     this.themeService.createTheme(this.themeForm).subscribe(
       res => {
         this.isCreated = true;
-        this.router.navigate(['/categories/' + this.categoryId + '/' + 'themes/' + this.themeId]).then(() => {
+        this.router.navigate(['/categories/' + this.categoryId + '/' + 'themes/' + res.id]).then(() => {
           window.setTimeout(function() {
             window.location.reload();
           }, 0);

@@ -59,25 +59,6 @@ export class CategoryManagementComponent implements OnInit {
     }
   }
 
-  async deleteCategory() {
-    if (confirm("Are you sure you want to delete the category?")) {
-      await this.categoryService.deleteCategory(this.categoryId).subscribe(
-        async (res: any) => {
-          console.log(res.message);
-          await (2000);
-          this.router.navigate(['/categories/']).then(() => {
-            window.setTimeout(function() {
-              window.location.reload();
-            }, 0);
-          });
-        }, error => {
-          this.errorMessage = error.error.message;
-        });
-      await(2000);
-      alert("Category deleted");
-    }
-  }
-
   updateCategory() {
     this.categoryService.updateCategory(this.categoryForm).subscribe(
       async res => {

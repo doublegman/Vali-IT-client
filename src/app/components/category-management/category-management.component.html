@@ -2,18 +2,19 @@
   <div class="row justify-content-center">
 
     <div class="w-100 mt-4 ml-5 mr-5 pl-4 pr-4">
-
       <div class="row w-100">
-        <div class="col align-self-start"><h3>{{category.name}}</h3></div>
-        <div class="col col-md-auto align-self-end">
-          <button type="button" class="btn btn-secondary" (click)="deleteCategory()">Delete category</button>
+        <div class="col align-self-start">
+          <h5>
+            <a routerLink="/categories/">All Categories</a> /
+            <a routerLink="/categories/{{categoryId}}/themes/all">{{category.name}}</a> /
+            <br><br>
+            <p class="mb-4">Category management:</p>
+          </h5>
         </div>
       </div>
-
     </div>
 
     <div class="w-100 ml-5 mr-5 pl-4 pr-4">
-
       <div class="container w-100">
         <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show " role="alert">
           {{errorMessage}}
@@ -22,7 +23,6 @@
           </button>
         </div>
       </div>
-
     </div>
 
     <div class="w-50 ml-5 mr-5 pl-4 pr-4 justify-content-center">

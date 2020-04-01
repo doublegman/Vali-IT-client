@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {NoteService} from '../../services/note.service';
 import {CategoryService} from '../../services/category.service';
 import {ThemeService} from '../../services/theme.service';
@@ -17,8 +17,10 @@ export class NoteComponent implements OnInit {
   note: any = {};
   categoryName = '';
   themeName = '';
+  errorMessage = '';
 
   constructor(private route: ActivatedRoute,
+              private router: Router,
               private noteService: NoteService,
               private categoryService: CategoryService,
               private themeService: ThemeService) { }
@@ -40,4 +42,20 @@ export class NoteComponent implements OnInit {
     }
   }
 
+  async deleteNote() {
+    if (confirm("Are you sure you want to delete the note?")) {
+      await this.noteService.deleteNote(this.noteId).subscribe(
+        async (res: any) => {
+          this.router.navigate(['/categories/' + this.categoryId + '/themes/' + this.themeId + '/notes']).then(() => {
+            window.setTimeout(function() {
+              window.location.reload();
+            }, 0);
+          });
+        }, error => {
+          this.errorMessage = error.error.message;
+        });
+      await (2000);
+      alert("Note deleted");
+    }
+  }
 }

@@ -38,12 +38,13 @@ const appRoutes: Routes = [
   { path: 'categories/new', component: NewCategoryComponent },
   { path: 'categories/:id', component: CategoryManagementComponent },
   { path: 'categories/:category_id/themes', component: ThemesComponent },
+  { path: 'categories/:category_id/themes/all', component: CategoryComponent },
   { path: 'categories/:category_id/themes/new', component: NewThemeComponent },
   { path: 'categories/:category_id/themes/:theme_id', component: ThemeManagementComponent },
   { path: 'categories/:category_id/themes/:theme_id/notes', component: NotesComponent },
   { path: 'categories/:category_id/themes/:theme_id/notes/new', component: NewNoteComponent },
   { path: 'categories/:category_id/themes/:theme_id/notes/:note_id', component: NoteComponent },
-  { path: 'categories/:category_id/themes/:theme_id/notes/:note_id/manage', component: NoteManagementComponent }
+  { path: 'categories/:category_id/themes/:theme_id/notes/:note_id/edit', component: NoteManagementComponent }
 ];
 
 @NgModule({

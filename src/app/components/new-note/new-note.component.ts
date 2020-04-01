@@ -6,7 +6,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {NoteService} from '../../services/note.service';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import {ChangeEvent} from '@ckeditor/ckeditor5-angular';
-import Base64UploadAdapter from '@ckeditor/ckeditor5-upload/src/adapters/base64uploadadapter';
+import {CategoryService} from '../../services/category.service';
 
 
 @Component({
@@ -14,10 +14,14 @@ import Base64UploadAdapter from '@ckeditor/ckeditor5-upload/src/adapters/base64u
   templateUrl: './new-note.component.html',
   styleUrls: ['./new-note.component.css']
 })
+
 export class NewNoteComponent implements OnInit {
+
   noteForm: any = {};
   themeId = '';
   categoryId = '';
+  themeName = '';
+  categoryName = '';
   errorMessage = '';
   isCreated: boolean = false;
   image: File;
@@ -25,6 +29,7 @@ export class NewNoteComponent implements OnInit {
 
   constructor(private noteService: NoteService,
               private themeService: ThemeService,
+              private categoryService: CategoryService,
               private jwt: JwtService,
               private http: HttpClient,
               private router: Router,
@@ -34,6 +39,8 @@ export class NewNoteComponent implements OnInit {
   ngOnInit(): void {
     this.categoryId = this.route.snapshot.paramMap.get('category_id');
     this.themeId = this.route.snapshot.paramMap.get('theme_id');
+    this.categoryService.getCategoryById(this.categoryId).subscribe(res => this.categoryName = res.name);
+    this.themeService.getThemeById(this.themeId).subscribe(res => this.themeName = res.name);
     this.noteForm.theme = {};
     this.noteForm.theme.id = Number(this.themeId);
   }
@@ -68,11 +75,11 @@ export class NewNoteComponent implements OnInit {
     this.noteService.createNote(this.noteForm).subscribe(
       res => {
         this.isCreated = true;
-/*        this.router.navigate(['/categories/' + this.categoryId + '/' + 'themes/' + this.themeId + '/notes/' + this.noteId]).then(() => {
+        this.router.navigate(['/categories/' + this.categoryId + '/' + 'themes/' + this.themeId + '/notes/']).then(() => {
           window.setTimeout(function() {
             window.location.reload();
           }, 0);
-        });*/
+        });
       }, error => {
         if (error) {
           this.errorMessage = error.error.message;
