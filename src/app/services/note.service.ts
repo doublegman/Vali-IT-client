@@ -18,16 +18,17 @@ export class NoteService {
       }));
   }
 
-  getNotesByThemeId(id): any[] {
-    let tempNotes = [];
-    this.getNotes().subscribe( res => {
-      for(let i=0; i < res.length; i++){
-        if (Number(id) === res[i].theme) {
-          tempNotes.push(res[i]);
+  getNotesByThemeId(id): Observable<any> {
+    return this.getNotes().pipe(map((res: any) => {
+        let tempNotes = [];
+        for(let note of res) {
+          if (note.theme === Number(id)){
+            tempNotes.push(note);
+          }
         }
+        return tempNotes;
       }
-    });
-    return tempNotes;
+    ));
   }
 
   getNoteById(id) {

@@ -7,6 +7,7 @@ import {NoteService} from '../../services/note.service';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import {ChangeEvent} from '@ckeditor/ckeditor5-angular';
 import {CategoryService} from '../../services/category.service';
+import Swal from "sweetalert2";
 
 
 @Component({
@@ -75,11 +76,17 @@ export class NewNoteComponent implements OnInit {
     this.noteService.createNote(this.noteForm).subscribe(
       res => {
         this.isCreated = true;
-        this.router.navigate(['/categories/' + this.categoryId + '/' + 'themes/' + this.themeId + '/notes/']).then(() => {
-          window.setTimeout(function() {
-            window.location.reload();
-          }, 0);
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          html: '<p class="h5 text-dark">' + res.name + ' note has been created</p>',
+          showConfirmButton: false,
+          timer: 1500
+        }).then(() => {
+        this.router.navigate(['/categories/' + this.categoryId + '/' + 'themes/' + this.themeId + '/notes/' + res.id]).then(() => {
+          window.location.reload();
         });
+        })
       }, error => {
         if (error) {
           this.errorMessage = error.error.message;
@@ -87,5 +94,4 @@ export class NewNoteComponent implements OnInit {
       }
     );
   }
-
 }

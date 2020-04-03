@@ -3,6 +3,7 @@ import {CategoryService} from '../../services/category.service';
 import {JwtService} from '../../services/jwt.service';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-new-category',
@@ -49,11 +50,17 @@ export class NewCategoryComponent implements OnInit {
     this.categoryService.createCategory(this.categoryForm).subscribe(
       res => {
         this.isCreated = true;
-        this.router.navigate(['/categories/' + res.id]).then(() => {
-          window.setTimeout(function() {
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          html: '<p class="h5 text-dark">' + res.name + ' category has been created</p>',
+          showConfirmButton: false,
+          timer: 1500
+        }).then(() => {
+          this.router.navigate(['/categories/' + res.id + '/themes/all']).then(() => {
             window.location.reload();
-          }, 0);
-        });
+          });
+        })
       }, error => {
         if (error) {
           this.errorMessage = error.error.message;

@@ -1,21 +1,18 @@
 <div class="container">
   <div class="row justify-content-center">
-
     <div class="w-100 mt-4 ml-5 mr-5 pl-4 pr-4">
       <div class="row w-100">
         <div class="col align-self-start">
           <h5>
-            <a routerLink="/categories">All Categories</a> /
-            <a routerLink="/categories/{{categoryId}}/themes/all">{{categoryName}}</a> /
+            <a class="text-muted" routerLink="/categories">All Categories</a> /
+            <a class="text-muted" routerLink="/categories/{{categoryId}}/themes/all">{{categoryName}}</a> /
             <br><br>
             <p class="mb-4">New Theme:</p>
           </h5>
         </div>
       </div>
     </div>
-
     <div class="w-100 ml-5 mr-5 pl-4 pr-4">
-
       <div class="container w-100">
         <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show " role="alert">
           {{errorMessage}}
@@ -23,20 +20,10 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div *ngIf="isCreated" class="alert alert-success alert-dismissible fade show" role="alert">
-          Theme successfully created.
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
       </div>
-
     </div>
-
     <div class="w-50 ml-5 mr-5 pl-4 pr-4 justify-content-center">
-
       <form enctype="multipart/form-data" class="" (ngSubmit)="onSubmit()">
-
         <div class="form-group row">
           <div class="col-sm-10 ml-2 mb-4 justify-content-center">
             <img class="img-thumbnail" src="assets/images/default-category.png" alt="pic">
@@ -45,7 +32,6 @@
             <input type="file" (change)="fileChange($event)" name="image" accept=".jpg"/>
           </div>
         </div>
-
         <div class="form-group row">
           <label for="staticUsername" class="col-sm-2 mr-5 col-form-label">Title</label>
           <div class="col-sm-10">
@@ -65,9 +51,7 @@
           <button class="btn btn-success" type="submit">Add</button>
         </div>
       </form>
-
     </div>
-
   </div>
 </div>
 

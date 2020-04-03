@@ -7,6 +7,7 @@ import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ChangeEvent} from '@ckeditor/ckeditor5-angular';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-note-management',
@@ -52,6 +53,9 @@ export class NoteManagementComponent implements OnInit {
     if (!this.noteForm.name) {
       this.noteForm.name = this.note.name;
     }
+    if (!this.noteForm.imageUrl) {
+      this.noteForm.imageUrl = this.note.imageUrl;
+    }
     if (this.image) {
       const api = `${this.jwt.endpoint}/uploadImage`;
       let tempImage = new FormData();
@@ -67,8 +71,7 @@ export class NoteManagementComponent implements OnInit {
   }
 
   onEditorChange( {editor}: ChangeEvent) {
-    this.noteForm.contentText = btoa(editor.getData());
-    console.log(this.noteForm.contentText);
+    this.noteForm.contentText = btoa(unescape(encodeURIComponent(editor.getData())));
   }
 
   getDecodedContent(): string {
@@ -78,7 +81,6 @@ export class NoteManagementComponent implements OnInit {
   fileChange(event: any) {
     if (event.target.files && event.target.files.length > 0) {
       this.image = event.target.files[0];
-      console.log(this.image);
     }
   }
 
@@ -88,12 +90,16 @@ export class NoteManagementComponent implements OnInit {
         this.note = res;
         this.errorMessage = '';
         this.imageUrl = '';
-        await this.router.navigate(['/categories/' + this.categoryId + '/themes/' + this.themeId + '/notes/' + this.noteId]).then(() => {
-          window.setTimeout(function() {
-            window.location.reload();
-          }, 0);
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          html: '<p class="h5 text-dark">Your note has been updated</p>',
+          showConfirmButton: false,
+          timer: 1500
+        }).then(() => { this.router.navigate(['/categories/' + this.categoryId + '/themes/' + this.themeId + '/notes/' + this.noteId]).then(() => {
+          window.location.reload();
         });
-        alert("Note updated");
+        });
       }, error => {
         if (error) {
           this.errorMessage = error.error.message;
@@ -101,5 +107,4 @@ export class NoteManagementComponent implements OnInit {
       }
     );
   }
-
 }

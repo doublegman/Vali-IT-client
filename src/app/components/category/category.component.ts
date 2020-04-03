@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CategoryService} from '../../services/category.service';
 import {ThemeService} from '../../services/theme.service';
-import {JwtService} from '../../services/jwt.service';
-import {HttpClient} from '@angular/common/http';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-category',
@@ -15,37 +14,64 @@ export class CategoryComponent implements OnInit {
   categoryName;
   categoryId;
   notes;
-  themes: any;
+  themes = [];
   errorMessage = '';
+  search2: string;
+  page: number = 1;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private categoryService: CategoryService,
     private themeService: ThemeService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.categoryId = this.route.snapshot.paramMap.get('category_id');
-    this.categoryService.getCategoryById(this.categoryId).subscribe(res=> this.categoryName = res.name);
-    this.themes = this.themeService.getThemesByCategoryId(this.categoryId);
+    this.categoryService.getCategoryById(this.categoryId).subscribe(res => this.categoryName = res.name);
+    this.themeService.getThemesByCategoryId(this.categoryId).subscribe(res => this.themes = res);
   }
 
-  async deleteCategory() {
-    if (confirm("Are you sure you want to delete the category?")) {
-      await this.categoryService.deleteCategory(this.categoryId).subscribe(
-        async (res: any) => {
-          this.router.navigate(['/categories/']).then(() => {
-            window.setTimeout(function() {
-              window.location.reload();
-            }, 0);
+  deleteCategory() {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-secondary m-2',
+        cancelButton: 'btn btn-secondary m-2',
+        container: 'p-5',
+      },
+      buttonsStyling: false,
+    });
+    swalWithBootstrapButtons.fire({
+      title: '<p class="h4 text-dark">Are you sure you want to delete this category?</p>',
+      html: '<p class="h6 text-danger">You will not be able to revert this!</p>',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, cancel!',
+      reverseButtons: false
+    }).then((result) => {
+      if (result.value) {
+        this.categoryService.deleteCategory(this.categoryId).subscribe(
+          async (res: any) => {
+            swalWithBootstrapButtons.fire({
+              position: 'center',
+              icon: 'success',
+              html: '<p class="h5 text-dark">Your category has been deleted</p>',
+              showConfirmButton: false,
+              timer: 1500
+            }).then(() => {
+              this.router.navigate(['/categories']).then(() => {
+                window.location.reload();
+              });
+              console.log(res.message);
+            });
+          }, error => {
+            this.errorMessage = error.error.message;
+            Swal.fire('Operation aborted', this.errorMessage, 'error');
           });
-        }, error => {
-          this.errorMessage = error.error.message;
-        });
-      await(2000);
-      alert("Category deleted");
-    }
+      } else if (result.dismiss === Swal.DismissReason.cancel) {}
+    });
   }
 
 }

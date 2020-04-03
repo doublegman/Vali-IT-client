@@ -9,6 +9,8 @@ import {CategoryService} from '../../services/category.service';
 export class CategoriesComponent implements OnInit {
 
   categories = [];
+  search: string;
+  page: number = 1;
 
   constructor(private categoryService: CategoryService) { }
 
@@ -21,6 +23,5 @@ export class CategoriesComponent implements OnInit {
   localStorageItem(key: string): string {
     return localStorage.getItem(key);
   }
-
 
 }

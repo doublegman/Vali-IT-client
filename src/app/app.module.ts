@@ -27,7 +27,9 @@ import { NoteManagementComponent } from './components/note-management/note-manag
 import { NewNoteComponent } from './components/new-note/new-note.component';
 import { CKEditorModule} from '@ckeditor/ckeditor5-angular';
 import { CategoryComponent } from './components/category/category.component';
-import { ThemeComponent } from './components/theme/theme.component';
+import {PipesModule} from 'w-ng5';
+import {NgxPaginationModule} from 'ngx-pagination';
+import {CookieService} from 'ngx-cookie-service';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -67,10 +69,10 @@ const appRoutes: Routes = [
     NoteComponent,
     NoteManagementComponent,
     NewNoteComponent,
-    CategoryComponent,
-    ThemeComponent
+    CategoryComponent
   ],
   imports: [
+    NgxPaginationModule,
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
@@ -90,9 +92,12 @@ const appRoutes: Routes = [
         blacklistedRoutes: ['http://localhost:8080/auth/*']
       }
     }),
-    FormsModule
+    FormsModule,
+    PipesModule
   ],
-  providers: [],
+  providers: [
+    CookieService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -4,6 +4,7 @@ import {JwtService} from '../../services/jwt.service';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ThemeService} from '../../services/theme.service';
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-new-theme',
@@ -59,11 +60,17 @@ export class NewThemeComponent implements OnInit {
     this.themeService.createTheme(this.themeForm).subscribe(
       res => {
         this.isCreated = true;
-        this.router.navigate(['/categories/' + this.categoryId + '/' + 'themes/' + res.id]).then(() => {
-          window.setTimeout(function() {
-            window.location.reload();
-          }, 0);
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          html: '<p class="h5 text-dark">' + res.name + ' theme has been created</p>',
+          showConfirmButton: false,
+          timer: 1500
+        }).then(() => {
+        this.router.navigate(['/categories/' + this.categoryId + '/' + 'themes/' + res.id + '/notes']).then(() => {
+          window.location.reload();
         });
+        })
       }, error => {
         if (error) {
           this.errorMessage = error.error.message;
@@ -71,5 +78,4 @@ export class NewThemeComponent implements OnInit {
       }
     );
   }
-
 }

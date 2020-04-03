@@ -1,53 +1,66 @@
 <div class="container">
   <div class="row justify-content-center">
-    <div class="row w-100 mt-4 ml-5 mr-5 pl-4 pr-4">
+    <div class="w-100 mt-4 ml-5 mr-5 pl-4 pr-4">
       <div class="row w-100">
         <div class="col align-self-start">
           <h5>
-          <a routerLink="/categories/">All Categories</a> /
-          <a routerLink="/categories/{{categoryId}}/themes/all">{{categoryName}}</a> /
-            <br><br>
-            <p class="mb-4">Themes list:</p>
+            <a class="text-muted" routerLink="/categories/">All Categories</a> /
+            <a class="text-muted" routerLink="/categories/{{categoryId}}/themes/all">{{categoryName}}</a> /
+            <input class="form-control-plaintext border-bottom w-25 mt-2" style="min-width: 150px" [(ngModel)]="search2"
+                   type="text" placeholder="Filter by name..." aria-label="Search">
+            <p class="mb-4 mt-4">Themes list:</p>
           </h5>
         </div>
         <div class="col col-md-auto align-self-center">
-          <a (click)="deleteCategory()"><button type="button" class="btn btn-secondary">Delete Category</button></a>
-        </div>
-        <div class="col col-md-auto align-self-center">
-          <a routerLink="/categories/{{categoryId}}"><button type="button" class="btn btn-secondary">Edit Category</button></a>
+          <a (click)="deleteCategory()">
+            <button type="button" class="btn btn-secondary m-1">Delete Category</button>
+          </a>
+          <a routerLink="/categories/{{categoryId}}">
+            <button type="button" class="btn btn-secondary m-1">Edit Category</button>
+          </a>
         </div>
       </div>
+    </div>
+    <div class="w-100 mt-4 ml-5 mr-5 pl-4 pr-5 text-center">
+      <pagination-controls (pageChange)="page = $event"></pagination-controls>
     </div>
     <div class="col-md-auto shadow-sm p-3 m-3 bg-white rounded">
-    <div class="text-center" style="width: 200px">
-      <div>
-        <h5>New</h5>
+      <div class="text-center" style="width: 200px">
+        <div>
+          <h5>New</h5>
+        </div>
+        <div class="mx-auto d-block" style="width: 180px; height: 180px">
+          <img class="img-thumbnail fit-image" style="width: 100%; height: 100%; object-fit: cover;"
+               src="assets/images/new_folder.png">
+        </div>
+        <div class="overflow-hidden" style="height: 70px">
+          Add new theme.
+        </div>
+        <a routerLink="/categories/{{categoryId}}/themes/new" class="stretched-link"></a>
       </div>
-      <div class="mx-auto d-block" style="width: 180px; height: 180px">
-        <img class="img-thumbnail fit-image" style="width: 100%; height: 100%; object-fit: cover;" src="assets/images/new_folder.png">
-      </div>
-      <div class="overflow-hidden" style="height: 70px">
-        Add new theme.
-      </div>
-      <a routerLink="/categories/{{categoryId}}/themes/new" class="stretched-link"></a>
     </div>
-    </div>
-    <div *ngFor="let theme of themes" class="col-md-auto shadow-sm p-3 m-3 bg-white rounded">
+    <div *ngFor="let theme of themes | filter: [{field:'name', value: search2}] | paginate: { itemsPerPage: 5, currentPage: page }"
+         class="col-md-auto shadow-sm p-3 m-3 bg-white rounded">
       <div class="text-center" style="width: 200px">
         <div>
           <h5>{{theme.name}}</h5>
         </div>
         <div class="mx-auto d-block" style="width: 180px; height: 180px">
-          <img *ngIf="theme.imageUrl; else elseBlock" class="img-thumbnail fit-image" style="width: 100%; height: 100%; object-fit: cover;"
+          <img *ngIf="theme.imageUrl; else elseBlock" class="img-thumbnail fit-image"
+               style="width: 100%; height: 100%; object-fit: cover;"
                src="{{theme.imageUrl}}">
-          <ng-template #elseBlock><img class="img-thumbnail fit-image" style="width: 100%; height: 100%; object-fit: cover;" src="assets/images/default-category.png"></ng-template>
+          <ng-template #elseBlock><img class="img-thumbnail fit-image"
+                                       style="width: 100%; height: 100%; object-fit: cover;"
+                                       src="assets/images/default-category.png"></ng-template>
         </div>
         <div class="overflow-hidden" style="height: 70px">
           <p>{{theme.description}}</p>
         </div>
         <a routerLink="/categories/{{categoryId}}/themes/{{theme.id}}/notes" class="stretched-link"></a>
       </div>
-
+    </div>
+    <div class="w-100 mt-4 ml-5 mr-5 pl-4 pr-5 text-center">
+      <pagination-controls (pageChange)="page = $event"></pagination-controls>
     </div>
   </div>
 </div>

@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {NoteService} from '../../services/note.service';
 import {CategoryService} from '../../services/category.service';
 import {ThemeService} from '../../services/theme.service';
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-note',
@@ -43,19 +44,43 @@ export class NoteComponent implements OnInit {
   }
 
   async deleteNote() {
-    if (confirm("Are you sure you want to delete the note?")) {
-      await this.noteService.deleteNote(this.noteId).subscribe(
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-secondary m-2',
+        cancelButton: 'btn btn-secondary m-2',
+        container: 'p-5',
+      },
+      buttonsStyling: false,
+    });
+    swalWithBootstrapButtons.fire({
+      title: '<p class="h4 text-dark">Are you sure you want to delete this note?</p>',
+      html: '<p class="h6 text-danger">You will not be able to revert this!</p>',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, cancel!',
+      reverseButtons: false
+    }).then((result) => {
+      if (result.value) {
+      this.noteService.deleteNote(this.noteId).subscribe(
         async (res: any) => {
+          swalWithBootstrapButtons.fire({
+            position: 'center',
+            icon: 'success',
+            html: '<p class="h5 text-dark">Your note has been deleted</p>',
+            showConfirmButton: false,
+            timer: 1500
+          }).then(() => {
           this.router.navigate(['/categories/' + this.categoryId + '/themes/' + this.themeId + '/notes']).then(() => {
-            window.setTimeout(function() {
-              window.location.reload();
-            }, 0);
+            window.location.reload();
+          });
           });
         }, error => {
           this.errorMessage = error.error.message;
+          Swal.fire('Operation aborted', this.errorMessage, 'error');
         });
-      await (2000);
-      alert("Note deleted");
-    }
+      } else if (result.dismiss === Swal.DismissReason.cancel) {}
+    });
   }
+
 }

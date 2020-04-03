@@ -1,32 +1,29 @@
 <div class="container">
   <div class="row justify-content-center">
-
     <div class="w-100 mt-4 ml-5 mr-5 pl-4 pr-4">
       <div class="row w-100">
         <div class="col align-self-start">
           <h5>
-            <a routerLink="/categories">All Categories</a> /
-            <a routerLink="/categories/{{categoryId}}/themes/all">{{categoryName}}</a> /
-            <a routerLink="/categories/{{categoryId}}/themes/{{themeId}}/notes">{{themeName}}</a> /
+            <a class="text-muted" routerLink="/categories">All Categories</a> /
+            <a class="text-muted" routerLink="/categories/{{categoryId}}/themes/all">{{categoryName}}</a> /
+            <a class="text-muted" routerLink="/categories/{{categoryId}}/themes/{{themeId}}/notes">{{themeName}}</a> /
             <br><br>
             <p class="mb-4">Note: {{note.name}}</p>
           </h5>
         </div>
         <div class="col col-md-auto align-self-center">
-          <a (click)="deleteNote()"><button type="button" class="btn btn-secondary">Delete Note</button></a>
-        </div>
-        <div class="col col-md-auto align-self-center">
-          <a routerLink="/categories/{{categoryId}}/themes/{{themeId}}/notes/{{noteId}}/edit"><button type="button" class="btn btn-secondary">Edit Note</button></a>
+          <a (click)="deleteNote()">
+            <button type="button" class="btn btn-secondary m-1">Delete Note</button>
+          </a>
+          <a routerLink="/categories/{{categoryId}}/themes/{{themeId}}/notes/{{noteId}}/edit">
+            <button type="button" class="btn btn-secondary m-1">Edit Note</button>
+          </a>
         </div>
       </div>
     </div>
-
     <div class="w-100 ml-5 mr-5 pl-4 pr-4 justify-content-center">
-
-    <div [innerHTML]="getContent()"></div>
-
+      <div [innerHTML]="getContent()"></div>
     </div>
-
   </div>
 </div>
 

@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {CategoryService} from '../../services/category.service';
 import {JwtService} from '../../services/jwt.service';
 import {HttpClient} from '@angular/common/http';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-category-management',
@@ -55,7 +56,6 @@ export class CategoryManagementComponent implements OnInit {
   fileChange(event: any) {
     if (event.target.files && event.target.files.length > 0) {
       this.image = event.target.files[0];
-      console.log(this.image);
     }
   }
 
@@ -65,12 +65,17 @@ export class CategoryManagementComponent implements OnInit {
         this.category = res;
         this.errorMessage = '';
         this.imageUrl = '';
-        await this.router.navigate(['/categories/' + this.categoryId]).then(() => {
-          window.setTimeout(function() {
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          html: '<p class="h5 text-dark">Your category has been updated</p>',
+          showConfirmButton: false,
+          timer: 1500
+        }).then(() => {
+          this.router.navigate(['/categories/' + this.categoryId + '/themes/all']).then(() => {
             window.location.reload();
-          }, 0);
+          });
         });
-        alert("Category updated");
       }, error => {
         if (error) {
           this.errorMessage = error.error.message;

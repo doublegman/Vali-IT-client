@@ -5,8 +5,8 @@
       <div class="row w-100">
         <div class="col align-self-start">
           <h5>
-            <a routerLink="/categories/">All Categories</a> /
-            <a routerLink="/categories/{{categoryId}}/themes/all">{{category.name}}</a> /
+            <a class="text-muted" routerLink="/categories/">All Categories</a> /
+            <a class="text-muted" routerLink="/categories/{{categoryId}}/themes/all">{{category.name}}</a> /
             <br><br>
             <p class="mb-4">Category management:</p>
           </h5>
@@ -16,7 +16,7 @@
 
     <div class="w-100 ml-5 mr-5 pl-4 pr-4">
       <div class="container w-100">
-        <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show " role="alert">
+        <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
           {{errorMessage}}
           <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="errorMessage=''">
             <span aria-hidden="true">&times;</span>

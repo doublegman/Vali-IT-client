@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {JwtService} from './jwt.service';
 import {map} from 'rxjs/operators';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -25,16 +25,17 @@ export class ThemeService {
       }));
   }
 
-  getThemesByCategoryId(id): any[] {
-    let tempThemes = [];
-    this.getThemes().subscribe( res => {
-      for(let i=0; i < res.length; i++){
-        if (Number(id) === res[i].category) {
-          tempThemes.push(res[i]);
+  getThemesByCategoryId(id): Observable<any> {
+    return this.getThemes().pipe(map((res: any) => {
+      let tempThemes = [];
+      for(let theme of res) {
+        if (theme.category === Number(id)){
+          tempThemes.push(theme);
         }
       }
-    });
-    return tempThemes;
+        return tempThemes;
+      }
+      ));
   }
 
   createTheme(theme): Observable<any> {

@@ -2,18 +2,65 @@
   <div class="row justify-content-center">
 
     <div class="w-100 mt-4 ml-5 mr-5 pl-4 pr-4">
-
-      <h3>Welcome</h3>
-      <hr>
-
+      <h3 *ngIf="!isLoggedIn; else titleElseBlock">Welcome to our project!</h3>
+      <ng-template #titleElseBlock>
+        <h5>
+          Hei <a class="text-info" routerLink="/user">{{user.username}}</a>! Your notes history:
+        </h5>
+      </ng-template>
     </div>
-
-    <div class="w-50 ml-5 mr-5 pl-4 pr-4 justify-content-center">
-
-    <!--TODO: Some welcome content-->
-
+    <div *ngIf="isLoggedIn; else elseBlock" class="w-100 ml-5 mr-5 pl-4 pr-4 justify-content-center">
+      <div *ngFor="let note of (notes ? notes.slice(0,5): [])" class="card w-100 img-thumbnail mb-2">
+        <div class="card-header">
+          <a class="text-muted"
+             routerLink="/categories/{{getCategoryIdByNote(note)}}/themes/{{note.theme}}/notes/{{note.id}}">{{getCategoryNameByNote(note)}}</a>
+          /
+          <a class="text-muted"
+             routerLink="/categories/{{getCategoryIdByNote(note)}}/themes/{{note.theme}}/notes">{{getThemeNameById(note.theme)}}</a>
+        </div>
+        <div class="card-body row text-dark">
+          <div class="col-md-auto">
+            <div class="mx-auto d-block" style="width: 100px; height: 100px">
+              <img *ngIf="note.imageUrl; else elseBlock" class="img-thumbnail fit-image"
+                   style="width: 100%; height: 100%; object-fit: cover;"
+                   src="{{note.imageUrl}}">
+              <ng-template #elseBlock><img class="img-thumbnail fit-image"
+                                           style="width: 100%; height: 100%; object-fit: cover;"
+                                           src="assets/images/default-category.png"></ng-template>
+            </div>
+          </div>
+          <div class="col-md">
+            <h5 class="card-title">
+              <a class="text-dark"
+                 routerLink="/categories/{{getCategoryIdByNote(note)}}/themes/{{note.theme}}/notes/{{note.id}}">
+                {{note.name}}
+              </a>
+            </h5>
+            <p class="card-text" [innerHTML]="getNoteDecryptedContent(note)"></p>
+          </div>
+        </div>
+        <div class="card-footer bg-transparent text-muted">
+          Last modified: {{note.lastModifiedDate}}
+        </div>
+      </div>
     </div>
-
+    <ng-template #elseBlock>
+      <div class="w-100 ml-5 mr-5 pl-4 pr-4 justify-content-center text-dark">
+        <p>The Vali-IT final project is underway.</p><p>
+        Our multi-disciplinary team of 2, offers a unique skill set of qualifications to bring what we believe to be
+          unique and
+          luminous ideas to build fully operating custom Java applications. Here is the result of our long and hard
+          work.
+          This project embodies an idea of a personal, server-based document repository, where a user can create, modify
+          or even delete his notes on various topics.
+          The project itself, consists of a <b class="text-dark">Backend ( Stack: Java, Maven, SpringBoot, Web, Rest, Security-JWT,
+        AOP-AspectJ, Lombok )</b> and intuitive <b class="text-dark">Frontend ( Stack: Angular 9, TypeScript, Bootstrap )</b>.
+          We are already enthusiastic about our project-development decisions and some of the feedback we have received
+          from our mentors.
+          Based on our experiences throught this project, we have generated lots of great ideas and look forward to
+          implementing them in our future applications.</p>
+      </div>
+    </ng-template>
   </div>
 </div>
 

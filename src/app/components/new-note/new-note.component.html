@@ -1,32 +1,23 @@
 <div class="container">
   <div class="row justify-content-center">
-
     <div class="w-100 mt-4 ml-5 mr-5 pl-4 pr-4">
       <div class="row w-100">
         <div class="col align-self-start">
           <h5>
-            <a routerLink="/categories">All Categories</a> /
-            <a routerLink="/categories/{{categoryId}}/themes/all">{{categoryName}}</a> /
-            <a routerLink="/categories/{{categoryId}}/themes/{{themeId}}/notes">{{themeName}}</a> /
+            <a class="text-muted" routerLink="/categories">All Categories</a> /
+            <a class="text-muted" routerLink="/categories/{{categoryId}}/themes/all">{{categoryName}}</a> /
+            <a class="text-muted" routerLink="/categories/{{categoryId}}/themes/{{themeId}}/notes">{{themeName}}</a> /
             <br><br>
             <p class="mb-4">New Note:</p>
           </h5>
         </div>
       </div>
     </div>
-
     <div class="w-100 ml-5 mr-5 pl-4 pr-4">
-
       <div class="container w-100">
         <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show " role="alert">
           {{errorMessage}}
           <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="errorMessage=''">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div *ngIf="isCreated" class="alert alert-success alert-dismissible fade show" role="alert">
-          Note successfully created.
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -55,7 +46,8 @@
     <div class="w-100">
       <label>Content:</label>
       <div class="w-100">
-        <ckeditor [editor]="Editor" class="w-100" (change)="onEditorChange($event)" data="<p>Please Insert your content here!</p>"></ckeditor>
+        <ckeditor [editor]="Editor" class="w-100" (change)="onEditorChange($event)"
+                  data="<p>Please Insert your content here!</p>"></ckeditor>
       </div>
       <div class="row mt-3 mr-5 justify-content-center">
         <button class="btn btn-success" (click)="onSubmit()">Add</button>

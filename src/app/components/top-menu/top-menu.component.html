@@ -1,6 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-light">
-  <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+  <div class="navbar-brand">
     <a class="navbar-brand" href="/"><img class="fit-image" style="height: 50px" src="assets/images/logo.png" alt="logo"/> </a>
+  </div>
+  <div class="collapse navbar-collapse">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li *ngIf="!localStorageItem('user_username')" class="nav-item">
         <a class="nav-link" routerLink="/register">Register</a>
@@ -11,11 +13,14 @@
     </ul>
   </div>
   <div *ngIf="localStorageItem('user_username')" class="navbar-nav">
-    <div class="navbar-text">Logged in as:</div>
-    <div class="nav-item dropdown">
+    <div class="nav-item dropdown fit-image">
       <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
          aria-haspopup="true" aria-expanded="false">
         {{ localStorageItem('user_username')}}
+        <img *ngIf="profilePictureUrl; else elseBlock" class="img-thumbnail fit-image" style="height: 50px; max-width: 50px"  src="{{profilePictureUrl}}">
+        <ng-template #elseBlock>
+          <img class="img-thumbnail fit-image" style="height: 50px; max-width: 50px" src="assets/images/default-avatar.png">
+        </ng-template>
       </a>
       <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
         <a class="dropdown-item" routerLink="/user">Profile</a>
